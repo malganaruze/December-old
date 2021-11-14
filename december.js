@@ -4374,6 +4374,7 @@ class CustomTextTriggers {
 					GhostBanriEffect,
 					SnowEffect,
 					ChristmasWonderlandEffect,
+					ArcadeTheme,
 				];
         if (CustomTextTriggers.has_init) {
             return;
@@ -4486,9 +4487,6 @@ class CustomTextTriggers {
     }
 }
 
-
-CustomTextTriggers.init();
-
 $('<button id="effectsbtn" class="btn btn-sm ' + (EFFECTSOFF ? 'btn-danger' : 'btn-default') + '" title="Toggle effects">Effects ' + (EFFECTSOFF ? 'OFF' : 'ON') + '</button>')
     .appendTo("#chatwrap")
     .on("click", function() {
@@ -4508,10 +4506,6 @@ $('<button id="effectsbtn" class="btn btn-sm ' + (EFFECTSOFF ? 'btn-danger' : 'b
 
 //checkEffects();
 
-// This is what turns the whole thing on to be run by chat messages like /erabe
-// TODO: Should we hide this behind a button being enabled? Like niconico is?
-socket.on("chatMsg", CustomTextTriggers.handleChatMessage);
-
 
 spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger' : 'btn-default') + '" title="Blocks all unicode characters and duplicate words during shows. Red means it is blocking.">アミ a m i あみ</button>')
 	.appendTo("#chatwrap")
@@ -4524,3 +4518,77 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			this.className = "btn btn-sm btn-default";
 		}
 	});
+
+
+/**
+ * Usage: /arcade_theme
+ * Turn off: /arcade_theme off
+ */
+ class ArcadeTheme {
+  static init() {
+    ArcadeTheme.state = {
+      user_enabled: true,
+      is_running: false,
+    };
+
+		// Add the Arcade font
+		const l = document.createElement('link');
+		l.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+		l.rel = 'stylesheet';
+		document.head.appendChild(l);
+  }
+
+	static start() {
+		const state = ArcadeTheme.state;
+    if (state.is_running || !state.user_enabled) {
+      return;
+    }
+    state.is_running = true;
+
+		document.documentElement.classList.add('is-arcade-theme');
+    state._root_element = document.createElement('div');
+    state._root_element.classList.add('c-theme__arcade');
+
+		// Other elements here
+
+    document.body.appendChild(state._root_element);
+	}
+
+	static stop() {
+		const state = ArcadeTheme.state;
+    if (!state.is_running) {
+      return;
+    }
+
+		document.documentElement.classList.remove('is-arcade-theme');
+    state.is_running = false;
+    document.body.removeChild(state._root_element);
+    state._root_element = null;
+	}
+
+  static enable() {
+		ArcadeTheme.state.user_enabled = true;
+  }
+
+  static disable() {
+		ArcadeTheme.state.user_enabled = false;
+		ArcadeTheme.stop();
+  }
+
+  static handleCommand(message_parts = [], other_args = {}) { // other args is for compatability
+    if (message_parts[0] === 'off') {
+      ArcadeTheme.stop();
+      return;
+    }
+
+    ArcadeTheme.start();
+  }
+}
+ArcadeTheme.command = '/arcade_theme';
+
+
+// All handlers must be added above this
+// This is what turns the whole thing on to be run by chat messages like /erabe
+// TODO: Should we hide this behind a button being enabled? Like niconico is?
+CustomTextTriggers.init();
+socket.on("chatMsg", CustomTextTriggers.handleChatMessage);

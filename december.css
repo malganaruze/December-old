@@ -1082,3 +1082,72 @@ span.glyphicon.glyphicon-time {
     opacity: 0.3;
   }
 }
+
+/* Arcade theme changes */
+html.is-arcade-theme body {
+  font-family: "Press Start 2P";
+  font-size: 14px;
+}
+html.is-arcade-theme #messagebuffer > div {
+  font-size: 12px;
+}
+
+html.is-arcade-theme .h1,
+html.is-arcade-theme .h2,
+html.is-arcade-theme .h3,
+html.is-arcade-theme .h4,
+html.is-arcade-theme .h5,
+html.is-arcade-theme .h6,
+html.is-arcade-theme h1,
+html.is-arcade-theme h2,
+html.is-arcade-theme h3,
+html.is-arcade-theme h4,
+html.is-arcade-theme h5,
+html.is-arcade-theme h6 {
+  font-family: "Press Start 2P";
+}
+
+html.is-arcade-theme .h1,
+html.is-arcade-theme .h2,
+html.is-arcade-theme .h3,
+html.is-arcade-theme .h4,
+html.is-arcade-theme .h5,
+html.is-arcade-theme .h6,
+html.is-arcade-theme h1,
+html.is-arcade-theme h2,
+html.is-arcade-theme h3,
+html.is-arcade-theme h4,
+html.is-arcade-theme h5,
+html.is-arcade-theme h6 {
+  font-family: "Press Start 2P";
+}
+
+html.is-arcade-theme .h1,
+html.is-arcade-theme h1 {
+  font-size: 28px;
+}
+
+html.is-arcade-theme .h2,
+html.is-arcade-theme h2 {
+  font-size: 24px;
+}
+
+html.is-arcade-theme .h3,
+html.is-arcade-theme h3 {
+  font-size: 20px;
+}
+
+html.is-arcade-theme .h4,
+html.is-arcade-theme h4 {
+  font-size: 14px;
+}
+
+html.is-arcade-theme .h5,
+html.is-arcade-theme h5 {
+  font-size: 12px;
+}
+
+html.is-arcade-theme .h6,
+html.is-arcade-theme h6 {
+  font-size: 12px;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+.c-battle-character {
+  width: 200px;
+  position: relative;
+}
+.c-battle-character:after {
+  content: "";
+  display: block;
+  padding-top: 200%;
+  background-image: url(./oono-idle.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.c-battle-character.is-spinning {
+  animation: battle-character-spin cubic-bezier(.89,.35,.52,1.53) infinite 10s;
+}
+
+@keyframes battle-character-spin {
+  0% {
+    transform: rotateY(0);
+  }
+
+  100% {
+    transform: rotateY(7200deg);
+  }
+}
+</style>
+<script src="anime.js"></script>
+
+<div class="c-battle-character s-oono s-player-1"></div>
+
+<script>
+(function() {
+  const player_1 = document.querySelector('.s-player-1');
+
+  const promise = anime({
+    targets: [player_1],
+    translateX: [
+      { value: 1000, duration: 500, delay: 1500, easing: 'easeInQuint' },
+    ],
+    rotateY: [
+      { value: '7200deg', duration: 3500, easing: 'cubicBezier(1, 0.41, 0.34, 1)' },
+    ],
+    loop: 1,
+  });
+
+  promise.finished.then(() => {
+    console.log('PUUUUUUUUUUNCH');
+  })
+})();
+</script>
