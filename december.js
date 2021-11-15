@@ -4549,6 +4549,47 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     state._root_element = document.createElement('div');
     state._root_element.classList.add('c-theme__arcade');
 
+
+		/** TEMPLATE
+<div class="c-arcade">
+	<div class="c-arcade__health-score">
+		<div class="c-arcade__scores">
+			<div class="c-arcade__score"><span class="c-arcade__score-player">P1</span> 80085</div>
+			<div class="c-arcade__score"><span class="c-arcade__score-player">P2</span> 42069</div>
+		</div>
+
+		<div class="c-arcade__health-bars">
+			<div class="c-arcade__left-bars">
+				<div class="c-arcade__health-bar">
+					<div class="c-arcade__health-bar-text">Oono’s sister is hot</div>
+					<div class="c-arcade__health-bar-health" style="width: 20%"></div>
+				</div>
+
+				<div class="c-arcade__health-bar">
+					<div class="c-arcade__health-bar-text">Oono is best</div>
+					<div class="c-arcade__health-bar-health" style="width: 30%"></div>
+				</div>
+			</div>
+
+			<div class="c-arcade__k-o-text">K.O</div>
+
+			<div class="c-arcade__right-bars">
+				<div class="c-arcade__health-bar">
+					<div class="c-arcade__health-bar-text">I cant choose, because i hate them all</div>
+					<div class="c-arcade__health-bar-health" style="width: 15%"></div>
+				</div>
+
+				<div class="c-arcade__health-bar">
+					<div class="c-arcade__health-bar-text">Oono is best</div>
+					<div class="c-arcade__health-bar-health" style="width: 80%"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+		*/
+
+
 		// Other elements here
 
     document.body.appendChild(state._root_element);
