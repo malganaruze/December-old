@@ -8,49 +8,77 @@
   width: 200px;
   position: relative;
 }
-.c-battle-character:after {
-  content: "";
-  display: block;
-  padding-top: 200%;
-  background-image: url(./oono-idle.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.c-battle-character.is-spinning {
-  animation: battle-character-spin cubic-bezier(.89,.35,.52,1.53) infinite 10s;
+.c-battle-character img {
+  width: 100%;
 }
 
-@keyframes battle-character-spin {
-  0% {
-    transform: rotateY(0);
-  }
-
-  100% {
-    transform: rotateY(7200deg);
-  }
+.s-player-1,
+.s-player-2 {
+  position: fixed;
+  bottom: 16px;
+}
+.s-player-1 {
+  left: 16px;
+}
+.s-player-2 {
+  right: 16px;
 }
 </style>
 <script src="anime.js"></script>
 
-<div class="c-battle-character s-oono s-player-1"></div>
+<div class="c-battle-character s-player-1">
+  <img src="./oono-idle.png">
+</div>
+
+<div class="c-battle-character s-player-2">
+  <img src="./oono-idle.png">
+</div>
 
 <script>
 (function() {
-  const player_1 = document.querySelector('.s-player-1');
+  function getDistanceBetweenPlayers(p1, p2) {
+    const {left: p1_left, width: p1_width} = p1.getBoundingClientRect();
+    const {left: p2_left, width: p2_width} = p2.getBoundingClientRect();
 
-  const promise = anime({
+    return p2_left - (p1_left + p1_width);
+  }
+
+  const player_1 = document.querySelector('.s-player-1');
+  const player_1_img = document.querySelector('.s-player-1 img');
+  const player_2 = document.querySelector('.s-player-2');
+  const player_2_img = document.querySelector('.s-player-2 img');
+
+  const distance_to_other_player = getDistanceBetweenPlayers(player_1, player_2);
+
+  const move_promise = anime({
     targets: [player_1],
     translateX: [
-      { value: 1000, duration: 500, delay: 1500, easing: 'easeInQuint' },
+      {
+        value: distance_to_other_player,
+        duration: 500,
+        delay: 1500,
+        easing: 'easeInQuint',
+      },
     ],
+  });
+
+  const spin_promise = anime({
+    targets: [player_1_img],
     rotateY: [
-      { value: '7200deg', duration: 3500, easing: 'cubicBezier(1, 0.41, 0.34, 1)' },
+      {
+        value: '7200deg',
+        duration: 3500,
+        easing: 'cubicBezier(1, 0.41, 0.34, 1)'
+      },
     ],
+    changeComplete: function(anim) {
+      console.log(anim);
+    },
     loop: 1,
   });
 
-  promise.finished.then(() => {
+  move_promise.finished.then(() => {
     console.log('PUUUUUUUUUUNCH');
-  })
+  });
 })();
 </script>
