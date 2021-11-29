@@ -4560,7 +4560,9 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			{text: '', health: Math.random()},
 		];
 		ArcadeTheme.buildTheme(scores, bar_configs);
-    document.body.appendChild(state._root_element);
+
+		const main = document.querySelector('#main');
+		main.parentElement.insertBefore(state._root_element, main);
 	}
 
 	static stop() {
@@ -4571,7 +4573,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
 		document.documentElement.classList.remove('is-arcade-theme');
     state.is_running = false;
-    document.body.removeChild(state._root_element);
+		state._root_element.parentElement.removeChild(state._root_element);
     state._root_element = null;
 		state.bars = [];
 	}
@@ -4652,6 +4654,8 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			} else {
 				right_bars.appendChild(bar.element);
 			}
+
+			i = i + 1;
 		}
 
 		bar_wrapper.appendChild(left_bars);
