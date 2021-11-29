@@ -1218,6 +1218,8 @@ html.is-arcade-theme #motdrow {
   top: 0;
   width: 100%;
   height: 100%;
+
+  transition: width 200ms ease-out;
 }
 
 .c-arcade__health-bar-text {

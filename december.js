@@ -4628,6 +4628,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
 		const bars = ArcadeTheme.state.bars;
 		if (bars.length < msg_data.counts.length) {
+			ArcadeTheme.handleNewPoll(msg_data);
 			return;
 		}
 
