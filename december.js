@@ -4538,6 +4538,9 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
 		link.rel = 'stylesheet';
 		document.head.appendChild(link);
+
+		socket.on("updatePoll", ArcadeTheme.handlePollUpdate);
+		socket.on("newPoll", ArcadeTheme.handleNewPoll);
   }
 
 	static start() {
@@ -4595,6 +4598,49 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
     ArcadeTheme.start();
   }
+
+	static handleNewPoll(msg_data) {
+		if (!ArcadeTheme.state.is_running) {
+			return;
+		}
+
+		const scores = [
+			{player: 'P1', score: 80085},
+			{player: 'P2', score: 42069},
+		];
+
+		const total_votes = msg_data.counts.reduce((a, b) => a + b, 0);
+		const bar_configs = [];
+		for (let i = 0; i < msg_data.options.length; i++) {
+			bar_configs.push({
+				text: msg_data.options[i],
+				health: (total_votes > 0) ? msg_data.counts[i] / total_votes : 1,
+			});
+		}
+
+		ArcadeTheme.buildTheme(scores, bar_configs);
+	}
+
+	static handlePollUpdate(msg_data) {
+		if (!ArcadeTheme.state.is_running) {
+			return;
+		}
+
+		const bars = ArcadeTheme.state.bars;
+		if (bars.length < msg_data.counts.length) {
+			return;
+		}
+
+		const total_votes = msg_data.counts.reduce((a, b) => a + b, 0);
+		for (let i = 0; i < msg_data.counts.length; i++) {
+			let health = 1;
+			if (total_votes > 0) {
+				health = msg_data.counts[i] / total_votes;
+			}
+
+			bars[i].update(health);
+		}
+	}
 
 	static buildTheme(scores, bar_configs) {
 		const scores_element = ArcadeTheme.buildScores(scores);
