@@ -4648,9 +4648,9 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			bars.push(bar);
 
 			if (i % 2 === 0) {
-				left_bars.appendChild(bar);
+				left_bars.appendChild(bar.element);
 			} else {
-				right_bars.appendChild(bar);
+				right_bars.appendChild(bar.element);
 			}
 		}
 
