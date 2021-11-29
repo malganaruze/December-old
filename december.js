@@ -4622,6 +4622,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
 		for (const score of scores) {
 			const score_element = document.createElement('div');
+			score_element.classList.add('c-arcade__score');
 			score_element.innerHTML = `<span class="c-arcade__score-player">${score.player}</span> ${score.score}`
 			scores_element.appendChild(score_element);
 		}
