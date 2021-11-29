@@ -4529,13 +4529,15 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     ArcadeTheme.state = {
       user_enabled: true,
       is_running: false,
+			bars: [],
+			_root_element: null,
     };
 
 		// Add the Arcade font
-		const l = document.createElement('link');
-		l.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
-		l.rel = 'stylesheet';
-		document.head.appendChild(l);
+		const link = document.createElement('link');
+		link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+		link.rel = 'stylesheet';
+		document.head.appendChild(link);
   }
 
 	static start() {
@@ -4547,51 +4549,17 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
 		document.documentElement.classList.add('is-arcade-theme');
     state._root_element = document.createElement('div');
-    state._root_element.classList.add('c-theme__arcade');
+    state._root_element.classList.add('c-arcade');
 
-
-		/** TEMPLATE
-<div class="c-arcade">
-	<div class="c-arcade__health-score">
-		<div class="c-arcade__scores">
-			<div class="c-arcade__score"><span class="c-arcade__score-player">P1</span> 80085</div>
-			<div class="c-arcade__score"><span class="c-arcade__score-player">P2</span> 42069</div>
-		</div>
-
-		<div class="c-arcade__health-bars">
-			<div class="c-arcade__left-bars">
-				<div class="c-arcade__health-bar">
-					<div class="c-arcade__health-bar-text">Oono’s sister is hot</div>
-					<div class="c-arcade__health-bar-health" style="width: 20%"></div>
-				</div>
-
-				<div class="c-arcade__health-bar">
-					<div class="c-arcade__health-bar-text">Oono is best</div>
-					<div class="c-arcade__health-bar-health" style="width: 30%"></div>
-				</div>
-			</div>
-
-			<div class="c-arcade__k-o-text">K.O</div>
-
-			<div class="c-arcade__right-bars">
-				<div class="c-arcade__health-bar">
-					<div class="c-arcade__health-bar-text">I cant choose, because i hate them all</div>
-					<div class="c-arcade__health-bar-health" style="width: 15%"></div>
-				</div>
-
-				<div class="c-arcade__health-bar">
-					<div class="c-arcade__health-bar-text">Oono is best</div>
-					<div class="c-arcade__health-bar-health" style="width: 80%"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-		*/
-
-
-		// Other elements here
-
+		const scores = [
+			{player: 'P1', score: 80085},
+			{player: 'P2', score: 42069},
+		];
+		const bar_configs = [
+			{text: '', health: Math.random()},
+			{text: '', health: Math.random()},
+		];
+		ArcadeTheme.buildTheme(scores, bar_configs);
     document.body.appendChild(state._root_element);
 	}
 
@@ -4605,6 +4573,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     state.is_running = false;
     document.body.removeChild(state._root_element);
     state._root_element = null;
+		state.bars = [];
 	}
 
   static enable() {
@@ -4624,6 +4593,98 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
     ArcadeTheme.start();
   }
+
+	static buildTheme(scores, bar_configs) {
+		const scores_element = ArcadeTheme.buildScores(scores);
+		const health_bars = ArcadeTheme.buildHealthBars(bar_configs);
+		ArcadeTheme.state.bars = health_bars.bars;
+
+		const health_score_wrapper = document.createElement('div');
+		health_score_wrapper.classList.add('c-arcade__health-score');
+		health_score_wrapper.appendChild(scores_element);
+		health_score_wrapper.appendChild(health_bars.element);
+
+		// Reset the root element
+		const root = ArcadeTheme.state._root_element;
+		while (root.firstChild) {
+			root.removeChild(root.firstChild);
+		}
+
+		// Add the elements in the correct order
+		root.appendChild(health_score_wrapper);
+	}
+
+	static buildScores(scores) {
+		const scores_element = document.createElement('div');
+		scores_element.classList.add('c-arcade__scores');
+
+		for (const score of scores) {
+			const score_element = document.createElement('div');
+			score_element.innerHTML = `<span class="c-arcade__score-player">${score.player}</span> ${score.score}`
+			scores_element.appendChild(score_element);
+		}
+
+		return scores_element;
+	}
+
+	static buildHealthBars(bar_configs) {
+		const bar_wrapper = document.createElement('div');
+		bar_wrapper.classList.add('c-arcade__health-bars');
+
+		const k_o_text = document.createElement('div');
+		k_o_text.classList.add('c-arcade__k-o-text');
+		k_o_text.textContent = 'K.O';
+
+		const left_bars = document.createElement('div');
+		left_bars.classList.add('c-arcade__left-bars');
+
+		const right_bars = document.createElement('div');
+		right_bars.classList.add('c-arcade__right-bars');
+
+		const bars = [];
+		let i = 0;
+		for (const bar_config of bar_configs) {
+			const bar = this.buildHealthBar(bar_config.text, bar_config.health);
+			bars.push(bar);
+
+			if (i % 2 === 0) {
+				left_bars.appendChild(bar);
+			} else {
+				right_bars.appendChild(bar);
+			}
+		}
+
+		bar_wrapper.appendChild(left_bars);
+		bar_wrapper.appendChild(k_o_text);
+		bar_wrapper.appendChild(right_bars);
+
+		return {
+			element: bar_wrapper,
+			bars: bars,
+		};
+	}
+	static buildHealthBar(text, health) {
+		const bar = document.createElement('div');
+		bar.classList.add('c-arcade__health-bar');
+
+		const bar_text = document.createElement('div');
+		bar_text.classList.add('c-arcade__health-bar-text');
+		bar_text.textContent = text;
+
+		const bar_health = document.createElement('div');
+		bar_health.classList.add('c-arcade__health-bar-health');
+		bar_health.style.width = (health * 100).toString() + '%';
+
+		bar.appendChild(bar_text);
+		bar.appendChild(bar_health);
+
+		return {
+			element: bar,
+			update: (health) => {
+				bar_health.style.width = (health * 100).toString() + '%';
+			},
+		};
+	}
 }
 ArcadeTheme.command = '/arcade_theme';
 
