@@ -270,6 +270,9 @@ background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/wafu_icon.
 .chat-msg-tsukat .username::before {
 background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/wafu_icon.png');
 }
+.chat-msg-Happy .username::before {
+background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/miku-padoru.png');
+}
 .username::before{
 	content:"AA";
 	background-size:20px 20px !important;
