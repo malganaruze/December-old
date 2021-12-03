@@ -4531,6 +4531,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
       is_running: false,
 			bars: [],
 			_root_element: null,
+			using_live_data: false,
     };
 
 		// Add the Arcade font
@@ -4578,6 +4579,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     state.is_running = false;
 		state._root_element.parentElement.removeChild(state._root_element);
     state._root_element = null;
+    state.using_live_data = false;
 		state.bars = [];
 	}
 
@@ -4604,6 +4606,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			return;
 		}
 
+		ArcadeTheme.state.using_live_data = true;
 		const scores = [
 			{player: 'P1', score: 80085},
 			{player: 'P2', score: 42069},
@@ -4627,7 +4630,9 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		}
 
 		const bars = ArcadeTheme.state.bars;
-		if (bars.length < msg_data.counts.length) {
+		if (bars.length !== msg_data.counts.length
+			  || !ArcadeTheme.state.using_live_data) {
+			// Handle this as a new poll request if we need more or less bars, or we weren't set up to handle live data yet
 			ArcadeTheme.handleNewPoll(msg_data);
 			return;
 		}
