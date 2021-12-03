@@ -1063,10 +1063,20 @@ span.glyphicon.glyphicon-time {
 /* Arcade theme changes */
 html.is-arcade-theme body {
   font-family: "Press Start 2P";
-  font-size: 14px;
+  font-size: 12px;
 }
 html.is-arcade-theme #messagebuffer > div {
   font-size: 12px;
+}
+html.is-arcade-theme .form-control {
+  font-size: 12px;
+}
+
+html.is-arcade-theme .btn {
+  font-size: 12px;
+}
+html.is-arcade-theme .btn-sm {
+  font-size: 10px;
 }
 
 html.is-arcade-theme .h1,
@@ -1237,6 +1247,9 @@ html.is-arcade-theme #motdrow {
   white-space: nowrap;
   max-width: 100%;
   padding: 0 4px;
+}
+.c-arcade__health-bar-text.is-long {
+  font-size: 14px;
 }
 
 .c-arcade__right-bars .c-arcade__health-bar-text {

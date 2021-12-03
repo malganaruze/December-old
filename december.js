@@ -4722,6 +4722,9 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		const bar_text = document.createElement('div');
 		bar_text.classList.add('c-arcade__health-bar-text');
 		bar_text.textContent = text;
+		if (text.length > 25) {
+			bar_text.classList.add('is-long');
+		}
 
 		const bar_health = document.createElement('div');
 		bar_health.classList.add('c-arcade__health-bar-health');
