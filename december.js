@@ -4374,6 +4374,7 @@ class CustomTextTriggers {
 					GhostBanriEffect,
 					SnowEffect,
 					ChristmasWonderlandEffect,
+					ArcadeTheme,
 				];
         if (CustomTextTriggers.has_init) {
             return;
@@ -4486,9 +4487,6 @@ class CustomTextTriggers {
     }
 }
 
-
-CustomTextTriggers.init();
-
 $('<button id="effectsbtn" class="btn btn-sm ' + (EFFECTSOFF ? 'btn-danger' : 'btn-default') + '" title="Toggle effects">Effects ' + (EFFECTSOFF ? 'OFF' : 'ON') + '</button>')
     .appendTo("#chatwrap")
     .on("click", function() {
@@ -4508,10 +4506,6 @@ $('<button id="effectsbtn" class="btn btn-sm ' + (EFFECTSOFF ? 'btn-danger' : 'b
 
 //checkEffects();
 
-// This is what turns the whole thing on to be run by chat messages like /erabe
-// TODO: Should we hide this behind a button being enabled? Like niconico is?
-socket.on("chatMsg", CustomTextTriggers.handleChatMessage);
-
 
 spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger' : 'btn-default') + '" title="Blocks all unicode characters and duplicate words during shows. Red means it is blocking.">アミ a m i あみ</button>')
 	.appendTo("#chatwrap")
@@ -4524,3 +4518,239 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			this.className = "btn btn-sm btn-default";
 		}
 	});
+
+
+/**
+ * Usage: /arcade_theme
+ * Turn off: /arcade_theme off
+ */
+ class ArcadeTheme {
+  static init() {
+    ArcadeTheme.state = {
+      user_enabled: true,
+      is_running: false,
+			bars: [],
+			_root_element: null,
+			using_live_data: false,
+    };
+
+		// Add the Arcade font
+		const link = document.createElement('link');
+		link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+		link.rel = 'stylesheet';
+		document.head.appendChild(link);
+
+		socket.on("updatePoll", ArcadeTheme.handlePollUpdate);
+		socket.on("newPoll", ArcadeTheme.handleNewPoll);
+  }
+
+	static start() {
+		const state = ArcadeTheme.state;
+    if (state.is_running || !state.user_enabled) {
+      return;
+    }
+    state.is_running = true;
+
+		document.documentElement.classList.add('is-arcade-theme');
+    state._root_element = document.createElement('div');
+    state._root_element.classList.add('c-arcade');
+
+		const scores = [
+			{player: 'P1', score: 80085},
+			{player: 'P2', score: 42069},
+		];
+		const bar_configs = [
+			{text: '', health: Math.random()},
+			{text: '', health: Math.random()},
+		];
+		ArcadeTheme.buildTheme(scores, bar_configs);
+
+		const main = document.querySelector('#main');
+		main.parentElement.insertBefore(state._root_element, main);
+	}
+
+	static stop() {
+		const state = ArcadeTheme.state;
+    if (!state.is_running) {
+      return;
+    }
+
+		document.documentElement.classList.remove('is-arcade-theme');
+    state.is_running = false;
+		state._root_element.parentElement.removeChild(state._root_element);
+    state._root_element = null;
+    state.using_live_data = false;
+		state.bars = [];
+	}
+
+  static enable() {
+		ArcadeTheme.state.user_enabled = true;
+  }
+
+  static disable() {
+		ArcadeTheme.state.user_enabled = false;
+		ArcadeTheme.stop();
+  }
+
+  static handleCommand(message_parts = [], other_args = {}) { // other args is for compatability
+    if (message_parts[0] === 'off') {
+      ArcadeTheme.stop();
+      return;
+    }
+
+    ArcadeTheme.start();
+  }
+
+	static handleNewPoll(msg_data) {
+		if (!ArcadeTheme.state.is_running) {
+			return;
+		}
+
+		ArcadeTheme.state.using_live_data = true;
+		const scores = [
+			{player: 'P1', score: 80085},
+			{player: 'P2', score: 42069},
+		];
+
+		const total_votes = msg_data.counts.reduce((a, b) => a + b, 0);
+		const bar_configs = [];
+		for (let i = 0; i < msg_data.options.length; i++) {
+			bar_configs.push({
+				text: msg_data.options[i],
+				health: (total_votes > 0) ? msg_data.counts[i] / total_votes : 1,
+			});
+		}
+
+		ArcadeTheme.buildTheme(scores, bar_configs);
+	}
+
+	static handlePollUpdate(msg_data) {
+		if (!ArcadeTheme.state.is_running) {
+			return;
+		}
+
+		const bars = ArcadeTheme.state.bars;
+		if (bars.length !== msg_data.counts.length
+			  || !ArcadeTheme.state.using_live_data) {
+			// Handle this as a new poll request if we need more or less bars, or we weren't set up to handle live data yet
+			ArcadeTheme.handleNewPoll(msg_data);
+			return;
+		}
+
+		const total_votes = msg_data.counts.reduce((a, b) => a + b, 0);
+		for (let i = 0; i < msg_data.counts.length; i++) {
+			let health = 1;
+			if (total_votes > 0) {
+				health = msg_data.counts[i] / total_votes;
+			}
+
+			bars[i].update(health);
+		}
+	}
+
+	static buildTheme(scores, bar_configs) {
+		const scores_element = ArcadeTheme.buildScores(scores);
+		const health_bars = ArcadeTheme.buildHealthBars(bar_configs);
+		ArcadeTheme.state.bars = health_bars.bars;
+
+		const health_score_wrapper = document.createElement('div');
+		health_score_wrapper.classList.add('c-arcade__health-score');
+		health_score_wrapper.appendChild(scores_element);
+		health_score_wrapper.appendChild(health_bars.element);
+
+		// Reset the root element
+		const root = ArcadeTheme.state._root_element;
+		while (root.firstChild) {
+			root.removeChild(root.firstChild);
+		}
+
+		// Add the elements in the correct order
+		root.appendChild(health_score_wrapper);
+	}
+
+	static buildScores(scores) {
+		const scores_element = document.createElement('div');
+		scores_element.classList.add('c-arcade__scores');
+
+		for (const score of scores) {
+			const score_element = document.createElement('div');
+			score_element.classList.add('c-arcade__score');
+			score_element.innerHTML = `<span class="c-arcade__score-player">${score.player}</span> ${score.score}`
+			scores_element.appendChild(score_element);
+		}
+
+		return scores_element;
+	}
+
+	static buildHealthBars(bar_configs) {
+		const bar_wrapper = document.createElement('div');
+		bar_wrapper.classList.add('c-arcade__health-bars');
+
+		const k_o_text = document.createElement('div');
+		k_o_text.classList.add('c-arcade__k-o-text');
+		k_o_text.textContent = 'K.O';
+
+		const left_bars = document.createElement('div');
+		left_bars.classList.add('c-arcade__left-bars');
+
+		const right_bars = document.createElement('div');
+		right_bars.classList.add('c-arcade__right-bars');
+
+		const bars = [];
+		let i = 0;
+		for (const bar_config of bar_configs) {
+			const bar = this.buildHealthBar(bar_config.text, bar_config.health);
+			bars.push(bar);
+
+			if (i % 2 === 0) {
+				left_bars.appendChild(bar.element);
+			} else {
+				right_bars.appendChild(bar.element);
+			}
+
+			i = i + 1;
+		}
+
+		bar_wrapper.appendChild(left_bars);
+		bar_wrapper.appendChild(k_o_text);
+		bar_wrapper.appendChild(right_bars);
+
+		return {
+			element: bar_wrapper,
+			bars: bars,
+		};
+	}
+	static buildHealthBar(text, health) {
+		const bar = document.createElement('div');
+		bar.classList.add('c-arcade__health-bar');
+
+		const bar_text = document.createElement('div');
+		bar_text.classList.add('c-arcade__health-bar-text');
+		bar_text.textContent = text;
+		if (text.length > 25) {
+			bar_text.classList.add('is-long');
+		}
+
+		const bar_health = document.createElement('div');
+		bar_health.classList.add('c-arcade__health-bar-health');
+		bar_health.style.width = (health * 100).toString() + '%';
+
+		bar.appendChild(bar_text);
+		bar.appendChild(bar_health);
+
+		return {
+			element: bar,
+			update: (health) => {
+				bar_health.style.width = (health * 100).toString() + '%';
+			},
+		};
+	}
+}
+ArcadeTheme.command = '/arcade_theme';
+
+
+// All handlers must be added above this
+// This is what turns the whole thing on to be run by chat messages like /erabe
+// TODO: Should we hide this behind a button being enabled? Like niconico is?
+CustomTextTriggers.init();
+socket.on("chatMsg", CustomTextTriggers.handleChatMessage);
