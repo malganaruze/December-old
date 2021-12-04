@@ -54,13 +54,26 @@ function removeChatSocket() {
 	socket.off("chatMsg", chatSocket);
 }
 
+var regex1 = /<a.+href="(.+?)".+<\/a>/gi;
+var regex2 = / <span style="display:none" class="teamColorSpan">.+/gi;
+
 function chatSocket(data) {
 	if (data.meta.addClass !== "server-whisper") {
 		var teamIcon = "None";
 		if (teamIconRegex.test(data.msg2)) {
 			teamIcon = data.msg2.match(teamIconRegex)[1];
 		}
-		aMessages[aMessages.length] = [data.time, data.username, data.msg2.replace(/<a.+href="(.+?)".+<\/a>/gi, "$1").replace(/ <span style="display:none" class="teamColorSpan">.+/gi,""), teamIcon];
+		
+		var parsedMsg2 = data.msg2;
+		
+		if (parsedMsg2.match(regex1) !== null) {
+		    parsedMsg2 = parsedMsg2.replace(regex1, "$1")
+		}
+		if (parsedMsg2.match(regex2) !== null) {
+		    parsedMsg2 = parsedMsg2.replace(regex2,"");
+		}
+
+		aMessages[aMessages.length] = [data.time, data.username, parsedMsg2, teamIcon];
 		if (aMessages.length > msgLength || downloadMsg) {
 			downloadMsg = false;
 			var filename = CHANNEL.name + "-CHAT-" + new Date() + ".csv";
