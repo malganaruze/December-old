@@ -4564,7 +4564,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			{text: '', health: Math.random()},
 			{text: '', health: Math.random()},
 		];
-		ArcadeTheme.buildTheme(scores, bar_configs);
+		ArcadeTheme.buildTheme(scores, bar_configs, '');
 
 		const main = document.querySelector('#main');
 		main.parentElement.insertBefore(state._root_element, main);
@@ -4623,12 +4623,8 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		}
 
 		// Update question
-		const question = document.querySelector('.c-arcade__question');
-		if (question) {
-			question.textContent = decodeEntities(msg_data.title);
-		}
-
-		ArcadeTheme.buildTheme(scores, bar_configs);
+		const question = decodeEntities(msg_data.title);
+		ArcadeTheme.buildTheme(scores, bar_configs, question);
 	}
 
 	static handlePollUpdate(msg_data) {
@@ -4655,8 +4651,8 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		}
 	}
 
-	static buildTheme(scores, bar_configs) {
-		const scores_element = ArcadeTheme.buildScores(scores[0], scores[1]);
+	static buildTheme(scores, bar_configs, question = '') {
+		const scores_element = ArcadeTheme.buildScores(scores[0], scores[1], question);
 		const health_bars = ArcadeTheme.buildHealthBars(bar_configs);
 		ArcadeTheme.state.bars = health_bars.bars;
 
@@ -4675,7 +4671,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		root.appendChild(health_score_wrapper);
 	}
 
-	static buildScores(score1, score2) {
+	static buildScores(score1, score2, question) {
 		const scores_element = document.createElement('div');
 		scores_element.classList.add('c-arcade__scores');
 
@@ -4688,9 +4684,10 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 
 		addScore(score1);
 
-		const question = document.createElement('div');
-		question.classList.add('c-arcade__question');
-		scores_element.appendChild(question);
+		const question_div = document.createElement('div');
+		question_div.classList.add('c-arcade__question');
+		question_div.textContent = question;
+		scores_element.appendChild(question_div);
 
 		addScore(score2);
 
