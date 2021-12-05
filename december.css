@@ -1075,23 +1075,23 @@ span.glyphicon.glyphicon-time {
 
 html.is-arcade-theme body {
   font-family: 'Retro Gaming';
-  font-size: 12px;
+  font-size: 14px;
 }
 html.is-arcade-theme #messagebuffer > div {
-  font-size: 12px;
+  font-size: 14px;
 }
 html.is-arcade-theme .form-control {
-  font-size: 12px;
+  font-size: 14px;
 }
 html.is-arcade-theme select.form-control {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 html.is-arcade-theme .btn {
-  font-size: 12px;
+  font-size: 14px;
 }
 html.is-arcade-theme .btn-sm {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 html.is-arcade-theme .h1,
@@ -1106,7 +1106,7 @@ html.is-arcade-theme h3,
 html.is-arcade-theme h4,
 html.is-arcade-theme h5,
 html.is-arcade-theme h6 {
-  font-family: "Press Start 2P";
+  font-family: "Retro Gaming";
 }
 
 html.is-arcade-theme .h1,
@@ -1121,32 +1121,32 @@ html.is-arcade-theme h3,
 html.is-arcade-theme h4,
 html.is-arcade-theme h5,
 html.is-arcade-theme h6 {
-  font-family: "Press Start 2P";
+  font-family: "Retro Gaming";
 }
 
 html.is-arcade-theme .h1,
 html.is-arcade-theme h1 {
-  font-size: 28px;
+  font-size: 24px;
 }
 
 html.is-arcade-theme .h2,
 html.is-arcade-theme h2 {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 html.is-arcade-theme .h3,
 html.is-arcade-theme h3 {
-  font-size: 20px;
+  font-size: 28px;
 }
 
 html.is-arcade-theme .h4,
 html.is-arcade-theme h4 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 html.is-arcade-theme .h5,
 html.is-arcade-theme h5 {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 html.is-arcade-theme .h6,
@@ -1169,10 +1169,10 @@ html.is-arcade-theme h6 {
 }
 
 html.is-arcade-theme .navbar {
-  font-size: 9px;
+  font-size: 12px;
 }
 html.is-arcade-theme .navbar-brand {
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .c-arcade__score {
@@ -1200,7 +1200,6 @@ html.is-arcade-theme #motdrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: -8px;
   flex-shrink: 0;
 }
 
@@ -1236,7 +1235,7 @@ html.is-arcade-theme #motdrow {
 }
 
 .c-arcade__health-bar-health {
-  background-color: #FFFE54;
+  background-color: #e5e600;
   position: absolute;
   right: 0;
   z-index: 1;
@@ -1250,7 +1249,7 @@ html.is-arcade-theme #motdrow {
 .c-arcade__health-bar-text {
   color: #fff;
   font-size: 18px;
-  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   position: absolute;
   z-index: 2;
   top: 0;
