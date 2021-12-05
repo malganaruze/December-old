@@ -4688,8 +4688,8 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		addScore(score1);
 
 		const question = document.createElement('div');
-		score_element.classList.add('c-arcade__question');
-		scores_element.appendChild(score_element);
+		question.classList.add('c-arcade__question');
+		scores_element.appendChild(question);
 
 		addScore(score2);
 
