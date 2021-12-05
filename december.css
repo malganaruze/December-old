@@ -1062,9 +1062,19 @@ span.glyphicon.glyphicon-time {
   }
 }
 
-/* Arcade theme changes */
+/* -------------------------------------------------------------------------- */
+/*                                Arcade theme                                */
+/* -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Retro Gaming';
+  src: url('./fonts/RetroGaming.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 html.is-arcade-theme body {
-  font-family: "Press Start 2P";
+  font-family: 'Retro Gaming';
   font-size: 12px;
 }
 html.is-arcade-theme #messagebuffer > div {
