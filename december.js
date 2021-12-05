@@ -819,7 +819,7 @@ if (USEROPTS.hidevid) {
 }
 
 //Team Colour
-$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1@713e026e90f717526f308bdec40bd22aad36cf53/December/teamcolor.js">');
+$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1/December@713e026e90f717526f308bdec40bd22aad36cf53/teamcolor.js">');
 
 // changing initial layout to compact
 $("body").addClass('fluid');
