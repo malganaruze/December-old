@@ -4555,6 +4555,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     state._root_element = document.createElement('div');
     state._root_element.classList.add('c-arcade');
 
+		// Must contain two scores
 		const scores = [
 			{player: 'P1', score: 80085},
 			{player: 'P2', score: 42069},
@@ -4563,7 +4564,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			{text: '', health: Math.random()},
 			{text: '', health: Math.random()},
 		];
-		ArcadeTheme.buildTheme(scores, bar_configs);
+		ArcadeTheme.buildTheme(scores, bar_configs, '');
 
 		const main = document.querySelector('#main');
 		main.parentElement.insertBefore(state._root_element, main);
@@ -4616,12 +4617,14 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		const bar_configs = [];
 		for (let i = 0; i < msg_data.options.length; i++) {
 			bar_configs.push({
-				text: msg_data.options[i],
+				text: decodeEntities(msg_data.options[i]),
 				health: (total_votes > 0) ? msg_data.counts[i] / total_votes : 1,
 			});
 		}
 
-		ArcadeTheme.buildTheme(scores, bar_configs);
+		// Update question
+		const question = decodeEntities(msg_data.title);
+		ArcadeTheme.buildTheme(scores, bar_configs, question);
 	}
 
 	static handlePollUpdate(msg_data) {
@@ -4648,8 +4651,8 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		}
 	}
 
-	static buildTheme(scores, bar_configs) {
-		const scores_element = ArcadeTheme.buildScores(scores);
+	static buildTheme(scores, bar_configs, question = '') {
+		const scores_element = ArcadeTheme.buildScores(scores[0], scores[1], question);
 		const health_bars = ArcadeTheme.buildHealthBars(bar_configs);
 		ArcadeTheme.state.bars = health_bars.bars;
 
@@ -4668,16 +4671,25 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		root.appendChild(health_score_wrapper);
 	}
 
-	static buildScores(scores) {
+	static buildScores(score1, score2, question) {
 		const scores_element = document.createElement('div');
 		scores_element.classList.add('c-arcade__scores');
 
-		for (const score of scores) {
+		function addScore(score) {
 			const score_element = document.createElement('div');
 			score_element.classList.add('c-arcade__score');
 			score_element.innerHTML = `<span class="c-arcade__score-player">${score.player}</span> ${score.score}`
 			scores_element.appendChild(score_element);
 		}
+
+		addScore(score1);
+
+		const question_div = document.createElement('div');
+		question_div.classList.add('c-arcade__question');
+		question_div.textContent = question;
+		scores_element.appendChild(question_div);
+
+		addScore(score2);
 
 		return scores_element;
 	}
@@ -4727,7 +4739,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		const bar_text = document.createElement('div');
 		bar_text.classList.add('c-arcade__health-bar-text');
 		bar_text.textContent = text;
-		if (text.length > 25) {
+		if (text.length > 40) {
 			bar_text.classList.add('is-long');
 		}
 
@@ -4747,6 +4759,13 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 	}
 }
 ArcadeTheme.command = '/arcade_theme';
+
+
+function decodeEntities(string) {
+  var textarea = document.createElement('textarea');
+  textarea.innerHTML = string;
+  return textarea.value;
+}
 
 
 // All handlers must be added above this
