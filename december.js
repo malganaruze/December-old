@@ -4616,7 +4616,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		const bar_configs = [];
 		for (let i = 0; i < msg_data.options.length; i++) {
 			bar_configs.push({
-				text: msg_data.options[i],
+				text: decodeEntities(msg_data.options[i]),
 				health: (total_votes > 0) ? msg_data.counts[i] / total_votes : 1,
 			});
 		}
@@ -4747,6 +4747,13 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 	}
 }
 ArcadeTheme.command = '/arcade_theme';
+
+
+function decodeEntities(string) {
+  var textarea = document.createElement('textarea');
+  textarea.innerHTML = string;
+  return textarea.value;
+}
 
 
 // All handlers must be added above this
