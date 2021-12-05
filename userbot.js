@@ -17,6 +17,7 @@ var downloadPoll = false;
 var teamIconRegex = /Ð(.+?)Ð/;
 var regex1 = /<a.+href="(.+?)".+<\/a>/gi;
 var regex2 = / <span style="display:none" class="teamColorSpan">.+/gi;
+var FORCETEMP = getOrDefault(CHANNEL.name + "_FORCETEMP", true);
 
 $('<button id="dl-logs" class="btn btn-sm btn-default">DL Logs</button>')
 	.insertAfter($("#emotelistbtn"))
@@ -321,3 +322,37 @@ if (hasPermission("mute")) {
 		.appendTo("#chatwrap")
 		.on("click", unmuteAllShadowMuted);
 }
+
+socket.on("changeMedia", changeToTempMedia);
+
+function changeToTempMedia() { //change to temp media if it exists in playlist after a new video.
+    if (FORCETEMP) {
+		if (document.querySelector(".queue_active.queue_temp") === null && document.getElementsByClassName("queue_temp")[0] !== null && document.getElementById("qlockbtn").classList.contains("btn-success")) {
+			var aQueueTempClassList = Array.from(document.getElementsByClassName("queue_temp")[0].classList);
+			for (var i = 0; i < aQueueTempClassList.length; i++) {
+				if (aQueueTempClassList[i].indexOf("pluid") > -1) {
+					socket.emit("jumpTo", aQueueTempClassList[i].replace("pluid-",""));
+					break;
+				}
+			}
+		}
+	}
+}
+
+function removeTempMediaSocket() {
+	socket.off("changeMedia", changeToTempMedia);
+}
+
+toggleForceTempBtn = $('<button id="toggleForceTempBtn" class="btn btn-sm ' + (!FORCETEMP ? 'btn-danger' : 'btn-success') + '" title="Force Temp Media">Force Temp Media</button>')
+	.appendTo("#playercontrols")
+	.on("click", function() {
+		FORCETEMP = !FORCETEMP;
+		setOpt(CHANNEL.name + "_FORCETEMP", FORCETEMP);
+		if (!FORCETEMP) {
+			this.className = "btn btn-sm btn-danger";
+			removeTempMediaSocket()
+		} else {
+			this.className = "btn btn-sm btn-success";
+			socket.on("changeMedia", changeToTempMedia);
+		}
+	});
