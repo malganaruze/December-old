@@ -4621,6 +4621,12 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			});
 		}
 
+		// Update question
+		const question = document.querySelector('.c-arcade__question');
+		if (question) {
+			question.textContent = decodeEntities(msg_data.title);
+		}
+
 		ArcadeTheme.buildTheme(scores, bar_configs);
 	}
 
@@ -4668,16 +4674,24 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		root.appendChild(health_score_wrapper);
 	}
 
-	static buildScores(scores) {
+	static buildScores(score1, score2) {
 		const scores_element = document.createElement('div');
 		scores_element.classList.add('c-arcade__scores');
 
-		for (const score of scores) {
+		function addScore(score) {
 			const score_element = document.createElement('div');
 			score_element.classList.add('c-arcade__score');
 			score_element.innerHTML = `<span class="c-arcade__score-player">${score.player}</span> ${score.score}`
 			scores_element.appendChild(score_element);
 		}
+
+		addScore(score1);
+
+		const question = document.createElement('div');
+		score_element.classList.add('c-arcade__question');
+		scores_element.appendChild(score_element);
+
+		addScore(score2);
 
 		return scores_element;
 	}
