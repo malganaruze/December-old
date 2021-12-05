@@ -1169,6 +1169,7 @@ html.is-arcade-theme h6 {
   display: flex;
   gap: 16px;
   align-items: flex-end;
+  margin-bottom: 4px;
 }
 
 html.is-arcade-theme .navbar {
@@ -1180,6 +1181,7 @@ html.is-arcade-theme .navbar-brand {
 
 .c-arcade__scores > * {
   font-size: 36px;
+  line-height: 1.2;
   background: linear-gradient(180deg, #FFFED3 0, #F4C54B 35%, #E7849B 80%);
   -webkit-background-clip: text;
           background-clip: text;
@@ -1187,9 +1189,6 @@ html.is-arcade-theme .navbar-brand {
 }
 .c-arcade__score {
   flex-shrink: 0;
-}
-.c-arcade__question {
-  line-height: 40px;
 }
 
 html.is-arcade-theme #motdrow {
