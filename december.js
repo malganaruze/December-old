@@ -2637,7 +2637,7 @@ $("#chatline").keydown(function(ev) {
 });
 
 if (CLIENT.name === "Happy") {
-	$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1/December/userbot.js">');
+	$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1/December@568b06c1b5d5f08e8b0c70dc1c331d85ce138224/userbot.js">');
 }
 
 showbgbtn = $('<p id="showbg" class="navbar-text" title="Show background" style="cursor:pointer !important;">Show BG</p>')

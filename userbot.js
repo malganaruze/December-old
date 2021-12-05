@@ -1,16 +1,22 @@
 var msgLength = 10000;
 var userLength = 10000;
 var playlistLength = 5000;
+var pollLength = 5000;
 var aMessagesDefault = [["Timestamp", "Username", "Message","Team Icon"]];
 var aMessages = getOrDefault(CHANNEL.name + "_MSGS", aMessagesDefault.slice(0));
 var aUserCountDefault = [["Timestamp", "Usercount"]];
 var aUserCount = getOrDefault(CHANNEL.name + "_USERCOUNT", aUserCountDefault.slice(0));
 var aPlaylistDefault = [["Timestamp", "Title", "Duration", "Seconds", "Type", "Link"]];
 var aPlaylist = getOrDefault(CHANNEL.name + "_PLAYLIST", aPlaylistDefault.slice(0));
+var aPollsDefault = [["Timestamp", "Started by", "Title", "Options", "Counts"]];
+var aPolls = getOrDefault(CHANNEL.name + "_POLLS", aPollsDefault.slice(0));
 var downloadMsg = false;
 var downloadUsers = false;
 var downloadPlaylist = false;
+var downloadPoll = false;
 var teamIconRegex = /Ð(.+?)Ð/;
+var regex1 = /<a.+href="(.+?)".+<\/a>/gi;
+var regex2 = / <span style="display:none" class="teamColorSpan">.+/gi;
 
 $('<button id="dl-logs" class="btn btn-sm btn-default">DL Logs</button>')
 	.insertAfter($("#emotelistbtn"))
@@ -18,6 +24,7 @@ $('<button id="dl-logs" class="btn btn-sm btn-default">DL Logs</button>')
 		downloadMsg = true;
 		downloadUsers = true;
 		downloadPlaylist = true;
+		downloadPoll = true;
 		setTimeout(function () {
 			if (downloadMsg) {
 				downloadMsg = false;
@@ -45,7 +52,51 @@ $('<button id="dl-logs" class="btn btn-sm btn-default">DL Logs</button>')
 				setOpt(CHANNEL.name + "_PLAYLIST", aPlaylist);
 			}
 		}, 3000);
+		setTimeout(function () {
+			if (downloadPoll) {
+				downloadPoll = false;
+				var filename = CHANNEL.name + "-POLLS-" + new Date() + ".csv";
+				exportToCsv(filename, aPolls);
+				aPolls = aPollsDefault.slice(0);
+				setOpt(CHANNEL.name + "_POLLS", aPolls);
+			}
+		}, 3000);
 	});
+
+removeChatSocket();
+socket.on("newPoll", newPollData);
+socket.on("updatePoll", updatePollData);
+socket.on("closePoll", closePollDownload);
+
+function removeChatSocket() {
+	socket.off("newPoll", newPollData);
+	socket.off("updatePoll", updatePollData);
+	socket.off("closePoll", closePollDownload);
+}
+
+function newPollData(data) {
+    aPolls[aPolls.length] = [data.timestamp, data.initiator, data.title, data.options.join(","), data.counts.join(",")];
+}
+
+function updatePollData(data) {
+    aPolls[aPolls.length-1] = [data.timestamp, data.initiator, data.title, data.options.join(","), data.counts.join(",")];
+}
+
+function closePollDownload() {
+	if (aPolls.length > pollLength || downloadPoll) {
+		downloadPoll = false;
+		var filename = CHANNEL.name + "-POLLS-" + new Date() + ".csv";
+		exportToCsv(filename, aPolls);
+		aPolls = aPollsDefault.slice(0);
+	}
+	try {
+		setOpt(CHANNEL.name + "_POLLS", aPolls);
+	} catch {
+		exportToCsv(filename, aPolls);
+		aPolls = aPollsDefault.slice(0);
+		setOpt(CHANNEL.name + "_POLLS", aPolls);
+	}
+}
 
 removeChatSocket();
 socket.on("chatMsg", chatSocket);
@@ -53,9 +104,6 @@ socket.on("chatMsg", chatSocket);
 function removeChatSocket() {
 	socket.off("chatMsg", chatSocket);
 }
-
-var regex1 = /<a.+href="(.+?)".+<\/a>/gi;
-var regex2 = / <span style="display:none" class="teamColorSpan">.+/gi;
 
 function chatSocket(data) {
 	if (data.meta.addClass !== "server-whisper") {
