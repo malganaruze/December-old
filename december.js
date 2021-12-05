@@ -4727,7 +4727,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 		const bar_text = document.createElement('div');
 		bar_text.classList.add('c-arcade__health-bar-text');
 		bar_text.textContent = text;
-		if (text.length > 25) {
+		if (text.length > 40) {
 			bar_text.classList.add('is-long');
 		}
 
