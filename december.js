@@ -4555,6 +4555,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
     state._root_element = document.createElement('div');
     state._root_element.classList.add('c-arcade');
 
+		// Must contain two scores
 		const scores = [
 			{player: 'P1', score: 80085},
 			{player: 'P2', score: 42069},
@@ -4655,7 +4656,7 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 	}
 
 	static buildTheme(scores, bar_configs) {
-		const scores_element = ArcadeTheme.buildScores(scores);
+		const scores_element = ArcadeTheme.buildScores(scores[0], scores[1]);
 		const health_bars = ArcadeTheme.buildHealthBars(bar_configs);
 		ArcadeTheme.state.bars = health_bars.bars;
 
