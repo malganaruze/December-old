@@ -3040,8 +3040,8 @@ class PresentsEffect {
             return;
         }
 
-	if (flashing_text !== "None") {
-	    const text = PresentsEffect.versions['normal'].label;
+	const text = PresentsEffect.versions['normal'].label;
+	if (text !== "None") {
             const flashing_text = document.createElement('P');
 	    flashing_text.classList.add('c-effect__presents-label');
 	    flashing_text.innerText = text;
