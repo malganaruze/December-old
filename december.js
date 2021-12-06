@@ -2951,13 +2951,6 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
-var PRESENTS_URLS = [];
-
-presentsCallback = function(data){
-  PRESENTS_URLS = data.presentsURLs;
-  alert(PRESENTS_URLS);
-};
-$('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
 
 class PresentsEffect {
     ///////////////////////////////////////////
@@ -2977,7 +2970,7 @@ class PresentsEffect {
         PresentsEffect.versions = {
             'normal': {
                 padoru: PresentsEffect.shiz_img,
-                img_bank: PRESENTS_URLS
+                img_bank: []
             },
         }
         PresentsEffect.state = {
@@ -4617,3 +4610,9 @@ function decodeEntities(string) {
 // TODO: Should we hide this behind a button being enabled? Like niconico is?
 CustomTextTriggers.init();
 socket.on("chatMsg", CustomTextTriggers.handleChatMessage);
+
+presentsCallback = function(data){
+  PresentsEffect.versions['normal'].img_bank = data.presentsURLs;
+  alert(PresentsEffect.versions['normal'].img_bank);
+};
+$('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
