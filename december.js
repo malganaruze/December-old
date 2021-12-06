@@ -3096,7 +3096,9 @@ class PresentsEffect {
             face_effect.parentElement.removeChild(fling2);
             face_effect.parentElement.removeChild(fling3);
             face_effect.parentElement.removeChild(face_effect);
+	        
             face_effect.removeEventListener('animationend', fn);
+            PresentsEffect.removeElement(outer)
         }
         face_effect.addEventListener('animationend', fn);
     }
