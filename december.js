@@ -2974,7 +2974,8 @@ class PresentsEffect {
         PresentsEffect.versions = {
             'normal': {
                 padoru: PresentsEffect.shiz_img,
-                img_bank: []
+                img_bank: [],
+		label: "None"
             },
         }
         PresentsEffect.state = {
@@ -3039,17 +3040,20 @@ class PresentsEffect {
             return;
         }
 
-        const text = PresentsEffect.versions['normal'].label;
-        if (text !== "None") {
-            const flashing_text = document.createElement('P');
-            flashing_text.classList.add('c-effect__presents-label');
-            flashing_text.innerText = text;
-            PresentsEffect.addElement(flashing_text);
-            const fn = () =>{
-                flashing_text.parentElement.removeChild(flashing_text);
-                flashing_text.removeEventListener('animationend', fn)
-            }
-            flashing_text.addEventListener('animationend', fn);
+        const label = PresentsEffect.versions['normal'].label;
+        if (label !== "None") {
+            
+            const labelText = document.createElement('P');
+            labelText.classList.add(`c-effect__presents-label`);
+            labelText.innerText = label;
+            
+            PresentsEffect.addElement(inner);
+
+            const fn = () => {
+                labelText.parentElement.removeChild(labelText);
+                labelText.removeEventListener('animationend', fn);
+            };
+            labelText.addEventListener('animationend', fn);
         }
     }
 
@@ -3080,6 +3084,7 @@ class PresentsEffect {
         fling3.classList.add('c-effect__presents-face-fling');
         fling3.classList.add('c-effect__presents-face-fling-type3');
         fling3.src = PresentsEffect.present_img;
+
         outer.appendChild(face_effect);
         outer.appendChild(fling1);
         outer.appendChild(fling2);
