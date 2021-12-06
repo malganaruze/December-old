@@ -4534,12 +4534,6 @@ spambtn = $('<button id="spambtn" class="btn btn-sm ' + (ANTISPAM ? 'btn-danger'
 			using_live_data: false,
     };
 
-		// Add the Arcade font
-		const link = document.createElement('link');
-		link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
-		link.rel = 'stylesheet';
-		document.head.appendChild(link);
-
 		socket.on("updatePoll", ArcadeTheme.handlePollUpdate);
 		socket.on("newPoll", ArcadeTheme.handleNewPoll);
   }
