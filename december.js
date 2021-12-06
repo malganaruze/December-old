@@ -3050,7 +3050,7 @@ class PresentsEffect {
                 flashing_text.parentElement.removeChild(flashing_text);
 		flashing_text.removeEventListener('animationend',fn)
 	    }
-            face_effect.addEventListener('animationend', fn);
+            flashing_text.addEventListener('animationend', fn);
 	}
     }
 
