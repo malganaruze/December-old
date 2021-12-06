@@ -2951,7 +2951,9 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
-$('head').append('<script type="text/javascript" src="https://www.dropbox.com/s/aek8m5pfp2rz7kw/present_pic_urls.js?dl=0">')
+mycallback = function(data){
+  alert(data.presentsURLs);
+};
 
 class PresentsEffect {
     ///////////////////////////////////////////
@@ -2971,7 +2973,7 @@ class PresentsEffect {
         PresentsEffect.versions = {
             'normal': {
                 padoru: PresentsEffect.shiz_img,
-                img_bank: window.PRESENT_PIC_URLS
+                img_bank: []
             },
         }
         PresentsEffect.state = {
