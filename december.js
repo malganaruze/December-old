@@ -3085,63 +3085,63 @@ class PresentsEffect {
         outer.appendChild(fling2);
         outer.appendChild(fling3);
 
-PadoruEffect.addElement(outer);
-const fn = () =>{
-    face_effect.parentElement.removeChild(fling1);
-    face_effect.parentElement.removeChild(fling2);
-    face_effect.parentElement.removeChild(fling3);
-    face_effect.parentElement.removeChild(face_effect);
-    face_effect.removeEventListener('animationend', fn);
-}
-face_effect.addEventListener('animationend', fn);
-}
+        PresentsEffect.addElement(outer);
+        const fn = () =>{
+            face_effect.parentElement.removeChild(fling1);
+            face_effect.parentElement.removeChild(fling2);
+            face_effect.parentElement.removeChild(fling3);
+            face_effect.parentElement.removeChild(face_effect);
+            face_effect.removeEventListener('animationend', fn);
+        }
+        face_effect.addEventListener('animationend', fn);
+    }
 
-static _runPresentsAnimation() {
-    const create_fn = (is_left) => {
-        if (!PresentsEffect.state.is_on) {
+    static _runPresentsAnimation() {
+        const create_fn = (is_left) => {
+            if (!PresentsEffect.state.is_on) {
+                return;
+            }
+
+            PresentsEffect._create_present(is_left);
+            setTimeout(() => create_fn(!is_left), PresentsEffect.state.level.spawn_rate);
+        };
+        setTimeout(() => create_fn(true), PresentsEffect.state.level.spawn_rate);
+    }
+    static _create_present(is_left){
+        if (!PresentsEffect.state.is_on || !PresentsEffect.state.enabled) {
             return;
         }
 
-        PresentsEffect._create_present(is_left);
-        setTimeout(() => create_fn(!is_left), PresentsEffect.state.level.spawn_rate);
-    };
-    setTimeout(() => create_fn(true), PresentsEffect.state.level.spawn_rate);
-}
-static _create_present(is_left){
-    if (!PresentsEffect.state.is_on || !PresentsEffect.state.enabled) {
-        return;
-    }
+        //const present_img = PresentsEffect.shiz_img; // replace with random
+        const present_img = PresentsEffect.state.version.img_bank[PresentsEffect.state.curr_img];
+        PresentsEffect.state.curr_img = PresentsEffect.state.curr_img + 1;
+        if (PresentsEffect.state.curr_img >= PresentsEffect.state.max_img) {
+            PresentsEffect.state.curr_img = 0;
+        }
+        const animation = CustomTextTriggers.randomElement(PresentsEffect.present_animations);
 
-    //const present_img = PresentsEffect.shiz_img; // replace with random
-    const present_img = PresentsEffect.state.version.img_bank[PresentsEffect.state.curr_img];
-    PresentsEffect.state.curr_img = PresentsEffect.state.curr_img + 1;
-    if (PresentsEffect.state.curr_img >= PresentsEffect.state.max_img) {
-        PresentsEffect.state.curr_img = 0;
-    }
-    const animation = CustomTextTriggers.randomElement(PresentsEffect.present_animations);
+        let offset = -500;
+        if (is_left) {
+            offset = 10;
+        }
+        else {
+            offset = 55;
+        }
+        let random_location = (Math.random() * 35 + offset).toFixed(4);
 
-    let offset = -500;
-    if (is_left) {
-        offset = 10;
-    }
-    else {
-        offset = 55;
-    }
-    let random_location = (Math.random() * 35 + offset).toFixed(4);
+        const inner = document.createElement('img')
+        inner.classList.add(`c-effect__presents-present-fall`);
+        inner.classList.add(`c-effect__presents-present-fall-${animation}`);
+        inner.style.left = `${random_location}%`;
+        inner.src = present_img;
+        PresentsEffect.addElement(inner);
 
-    const inner = document.createElement('img')
-    inner.classList.add(`c-effect__presents-present-fall`);
-    inner.classList.add(`c-effect__presents-present-fall-${animation}`);
-    inner.style.left = `${random_location}%`;
-    inner.src = present_img;
-    PresentsEffect.addElement(inner);
-
-    const fn = () => {
-        inner.parentElement.removeChild(inner);
-        inner.removeEventListener('animationend', fn);
-    };
-    inner.addEventListener('animationend', fn);
-}
+        const fn = () => {
+            inner.parentElement.removeChild(inner);
+            inner.removeEventListener('animationend', fn);
+        };
+        inner.addEventListener('animationend', fn);
+    }
 }
 class PadoruEffect {
     ///////////////////////////////////////////
