@@ -2951,7 +2951,10 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
-
+presentsCallback = function(data){
+  PresentsEffect.versions['normal'].img_bank = data.presentsURLs;
+  alert(PresentsEffect.versions['normal'].img_bank);
+};
 class PresentsEffect {
     ///////////////////////////////////////////
     // "Public" Static methods
@@ -3004,25 +3007,28 @@ class PresentsEffect {
 
     static handleCommand(message_parts = [], other_args = {}) {
 
-        // No parse, right now just one version
-        // TODO: add different H levels and loli options
+	    
+	if ((message_parts.length > 0) && (message_parts[0] === "update")) {
+		$('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
+	}
+	if (message_parts.length == 0) {
+	    // Disable presents after the timeout. If there is already one, reset the timer
+	    if (PresentsEffect.state.timeout) {
+	        clearTimeout(PresentsEffect.state.timeout);
+	    }
+	    PresentsEffect.state.timeout =
+	            setTimeout(PresentsEffect.stop, PresentsEffect.presents_duration_s * 1000);
 
-        // Disable presents after the timeout. If there is already one, reset the timer
-        if (PresentsEffect.state.timeout) {
-            clearTimeout(PresentsEffect.state.timeout);
-        }
-        PresentsEffect.state.timeout =
-            setTimeout(PresentsEffect.stop, PresentsEffect.presents_duration_s * 1000);
-
-        // Only start the padoru animation if it is not already started
-        if (PresentsEffect.state.is_on) {
-            return;
-        }
-        PresentsEffect.state.is_on = true;
-        PresentsEffect.state.curr_img = 0;
-        PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
-        PresentsEffect._faceAnimation();
-        PresentsEffect._runPresentsAnimation();
+	    // Only start the padoru animation if it is not already started
+	    if (PresentsEffect.state.is_on) {
+	        return;
+	    }
+	    PresentsEffect.state.is_on = true;
+	    PresentsEffect.state.curr_img = 0;
+	    PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
+	    PresentsEffect._faceAnimation();
+	    PresentsEffect._runPresentsAnimation();
+	}
     }
     ///////////////////////////////////////////
     // Timed Static methods
@@ -4619,8 +4625,4 @@ function decodeEntities(string) {
 CustomTextTriggers.init();
 socket.on("chatMsg", CustomTextTriggers.handleChatMessage);
 
-presentsCallback = function(data){
-  PresentsEffect.versions['normal'].img_bank = data.presentsURLs;
-  alert(PresentsEffect.versions['normal'].img_bank);
-};
 $('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
