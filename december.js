@@ -9,7 +9,7 @@ SCRIPT_FOLDER_URL = SCRIPT_FOLDER_URL.join('/');
 
 var adPercent = 0.1;
 
-var Favicon_URL = 'https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/tiger.png';
+var Favicon_URL = `${SCRIPT_FOLDER_URL}/Images/tiger.png`;
 
 var ChannelName_Caption = '25 Days of Autism';
 
@@ -819,7 +819,7 @@ if (USEROPTS.hidevid) {
 }
 
 //Team Colour
-$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1/December@713e026e90f717526f308bdec40bd22aad36cf53/teamcolor.js">');
+$('head').append('<script type="text/javascript" src="' + `${SCRIPT_FOLDER_URL}/teamcolor.js` + '">');
 
 // changing initial layout to compact
 $("body").addClass('fluid');
@@ -2637,7 +2637,7 @@ $("#chatline").keydown(function(ev) {
 });
 
 if (CLIENT.name === "Happy") {
-	$('head').append('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/HappyHub1/December@646302e25e929c7a0ce344768c0bf9865f2310c4/userbot.js">');
+	$('head').append('<script type="text/javascript" src="' + `${SCRIPT_FOLDER_URL}/userbot.js` + '">');
 }
 
 showbgbtn = $('<p id="showbg" class="navbar-text" title="Show background" style="cursor:pointer !important;">Show BG</p>')
