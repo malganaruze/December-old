@@ -2951,9 +2951,11 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
+var PRESENTS_URLS = []
+
 presentsCallback = function(data){
   alert(data.presentsURLs);
-  var PRESENTS_URLS = data.presentsURLS
+  PRESENTS_URLS = data.presentsURLS
 };
 $('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
 
