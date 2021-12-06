@@ -2951,11 +2951,11 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
-var PRESENTS_URLS = []
+var PRESENTS_URLS = [];
 
 presentsCallback = function(data){
-  alert(data.presentsURLs);
-  PRESENTS_URLS = data.presentsURLS
+  PRESENTS_URLS = data.presentsURLS;
+  alert(PRESENTS_URLS);
 };
 $('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
 
