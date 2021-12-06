@@ -3008,29 +3008,28 @@ class PresentsEffect {
 
     static handleCommand(message_parts = [], other_args = {}) {
 
-	    
-	if ((message_parts.length > 0) && (message_parts[0] === "update")) {
-		$('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
-	}
-	if (message_parts.length == 0) {
-	    // Disable presents after the timeout. If there is already one, reset the timer
-	    if (PresentsEffect.state.timeout) {
-	        clearTimeout(PresentsEffect.state.timeout);
-	    }
-	    PresentsEffect.state.timeout =
-	            setTimeout(PresentsEffect.stop, PresentsEffect.presents_duration_s * 1000);
+        if ((message_parts.length > 0) && (message_parts[0] === "update")) {
+            $('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
+        }
+        if (message_parts.length == 0) {
+            // Disable presents after the timeout. If there is already one, reset the timer
+            if (PresentsEffect.state.timeout) {
+                clearTimeout(PresentsEffect.state.timeout);
+            }
+            PresentsEffect.state.timeout =
+                    setTimeout(PresentsEffect.stop, PresentsEffect.presents_duration_s * 1000);
 
-	    // Only start the padoru animation if it is not already started
-	    if (PresentsEffect.state.is_on) {
-	        return;
-	    }
-	    PresentsEffect.state.is_on = true;
-	    PresentsEffect.state.curr_img = 0;
-	    PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
-	    PresentsEffect._faceAnimation();
-	    PresentsEffect._flashingText();
-	    PresentsEffect._runPresentsAnimation();
-	}
+            // Only start the padoru animation if it is not already started
+            if (PresentsEffect.state.is_on) {
+                return;
+            }
+            PresentsEffect.state.is_on = true;
+            PresentsEffect.state.curr_img = 0;
+            PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
+            PresentsEffect._faceAnimation();
+            PresentsEffect._flashingText();
+            PresentsEffect._runPresentsAnimation();
+        }
     }
     ///////////////////////////////////////////
     // Timed Static methods
@@ -3040,18 +3039,18 @@ class PresentsEffect {
             return;
         }
 
-	const text = PresentsEffect.versions['normal'].label;
-	if (text !== "None") {
+        const text = PresentsEffect.versions['normal'].label;
+        if (text !== "None") {
             const flashing_text = document.createElement('P');
-	    flashing_text.classList.add('c-effect__presents-label');
-	    flashing_text.innerText = text;
-	    PadoruEffect.addElement(flashing_text);
-	    const fn = () =>{
-                flashing_text.parentElement.removeChild(flashing_text);
-		flashing_text.removeEventListener('animationend',fn)
-	    }
-            flashing_text.addEventListener('animationend', fn);
-	}
+            flashing_text.classList.add('c-effect__presents-label');
+            flashing_text.innerText = text;
+            PadoruEffect.addElement(flashing_text);
+            //const fn = () =>{
+            //    flashing_text.parentElement.removeChild(flashing_text);
+            //    flashing_text.removeEventListener('animationend', fn)
+            //}
+            //flashing_text.addEventListener('animationend', fn);
+        }
     }
 
     static _faceAnimation(){
