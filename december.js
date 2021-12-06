@@ -2954,7 +2954,7 @@ $("#mediaurl").on("paste", function() {
 var PRESENTS_URLS = [];
 
 presentsCallback = function(data){
-  PRESENTS_URLS = data.presentsURLS;
+  PRESENTS_URLS = data.presentsURLs;
   alert(PRESENTS_URLS);
 };
 $('head').append('<script type="text/javascript" src="https://dl.dropboxusercontent.com/s/aek8m5pfp2rz7kw/present_pic_urls.js">')
