@@ -3047,7 +3047,7 @@ class PresentsEffect {
             labelText.classList.add(`c-effect__presents-label`);
             labelText.innerText = label;
             
-            PresentsEffect.addElement(inner);
+            PresentsEffect.addElement(labelText);
 
             const fn = () => {
                 labelText.parentElement.removeChild(labelText);
