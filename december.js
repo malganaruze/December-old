@@ -3052,6 +3052,7 @@ class PresentsEffect {
 	    }
             face_effect.addEventListener('animationend', fn);
 	}
+    }
 
     static _faceAnimation(){
         if (!PresentsEffect.state.is_on) {
