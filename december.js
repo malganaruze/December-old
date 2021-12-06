@@ -2979,6 +2979,7 @@ class PresentsEffect {
             timeout: null,
             level: PresentsEffect.levels[0],
             version: PresentsEffect.versions['normal'],
+	    curr_img: 0,
         }
         PresentsEffect.container = document.createElement('div');
         document.documentElement.appendChild(PresentsEffect.container);
@@ -3017,6 +3018,7 @@ class PresentsEffect {
             return;
         }
         PresentsEffect.state.is_on = true;
+        PresentsEffect.state.curr_img = 0;
         PresentsEffect._faceAnimation();
         PresentsEffect._runPresentsAnimation();
     }
@@ -3086,10 +3088,10 @@ class PresentsEffect {
 
 PadoruEffect.addElement(outer);
 const fn = () =>{
-    face_effect.parentElement.removeChild(face_effect);
     face_effect.parentElement.removeChild(fling1);
     face_effect.parentElement.removeChild(fling2);
     face_effect.parentElement.removeChild(fling3);
+    face_effect.parentElement.removeChild(face_effect);
     face_effect.removeEventListener('animationend', fn);
 }
 face_effect.addEventListener('animationend', fn);
@@ -3112,7 +3114,8 @@ static _create_present(is_left){
     }
 
     //const present_img = PresentsEffect.shiz_img; // replace with random
-    const present_img = CustomTextTriggers.randomElement(PresentsEffect.state.version.img_bank);
+    const present_img = PresentsEffect.state.version.img_bank[PresentsEffect.state.curr_img];
+    PresentsEffect.state.curr_img = PresentsEffect.state.curr_img + 1;
     const animation = CustomTextTriggers.randomElement(PresentsEffect.present_animations);
 
     let offset = -500;
