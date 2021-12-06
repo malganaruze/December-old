@@ -2951,8 +2951,10 @@ $("#mediaurl").on("paste", function() {
 	}
 }*/
 
+PRESENTS_URLS = []
 mycallback = function(data){
   alert(data.presentsURLs);
+  PRESENTS_URLS = data.presentsURLS
 };
 
 class PresentsEffect {
@@ -2973,7 +2975,7 @@ class PresentsEffect {
         PresentsEffect.versions = {
             'normal': {
                 padoru: PresentsEffect.shiz_img,
-                img_bank: []
+                img_bank: PRESENT_URLS
             },
         }
         PresentsEffect.state = {
