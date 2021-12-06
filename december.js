@@ -2971,7 +2971,7 @@ class PresentsEffect {
         PresentsEffect.versions = {
             'normal': {
                 padoru: PresentsEffect.shiz_img,
-                img_bank: PRESENT_PIC_URLS
+                img_bank: window.PRESENT_PIC_URLS
             },
         }
         PresentsEffect.state = {
