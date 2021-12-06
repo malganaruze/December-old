@@ -2953,6 +2953,7 @@ $("#mediaurl").on("paste", function() {
 
 presentsCallback = function(data){
   PresentsEffect.versions['normal'].img_bank = data.presentsURLs;
+  PresentsEffect.versions['normal'].label = data.presentsLabel;
   //alert(PresentsEffect.versions['normal'].img_bank);
 };
 class PresentsEffect {
@@ -3027,12 +3028,31 @@ class PresentsEffect {
 	    PresentsEffect.state.curr_img = 0;
 	    PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
 	    PresentsEffect._faceAnimation();
+	    PresentsEffect._flashingText();
 	    PresentsEffect._runPresentsAnimation();
 	}
     }
     ///////////////////////////////////////////
     // Timed Static methods
     ///////////////////////////////////////////
+    static _flashingText(){
+        if (!PresentsEffect.state.is_on) {
+            return;
+        }
+
+	if (flashing_text !== "None") {
+	    const text = PresentsEffect.versions['normal'].label;
+            const flashing_text = document.createElement('P');
+	    flashing_text.classList.add('c-effect__presents-label');
+	    flashing_text.innerText = text;
+	    PadoruEffect.addElement(flashing_text);
+	    const fn = () =>{
+                flashing_text.parentElement.removeChild(flashing_text);
+		flashing_text.removeEventListener('animationend',fn)
+	    }
+            face_effect.addEventListener('animationend', fn);
+	}
+
     static _faceAnimation(){
         if (!PresentsEffect.state.is_on) {
             return;
@@ -3064,35 +3084,6 @@ class PresentsEffect {
         outer.appendChild(fling1);
         outer.appendChild(fling2);
         outer.appendChild(fling3);
-        /*
-        const outer1 = document.createElement('div');
-        outer1.classList.add('c-effect__presents-face-outer');
-        fling1.src = PresentsEffect.present_img;
-                                    //outer1.appendChild(fling1);
-                                    //PadoruEffect.addElement(outer1);
-
-        const outer2 = document.createElement('div');
-        outer2.classList.add('c-effect__presents-face-outer');
-        const fling2 = document.createElement('img')
-        fling2.classList.add('c-effect__presents-face-fling');
-        fling2.classList.add('c-effect__presents-face-fling-type2');
-        fling2.src = PresentsEffect.present_img;
-//outer2.appendChild(fling2);
-//PadoruEffect.addElement(outer2);
-
-        const outer3 = document.createElement('div');
-        outer3.classList.add('c-effect__presents-face-outer');
-        const fling3 = document.createElement('img')
-        fling3.classList.add('c-effect__presents-face-fling');
-        fling3.classList.add('c-effect__presents-face-fling-type3');
-        fling3.src = PresentsEffect.present_img;
-//outer3.appendChild(fling3);
-//PadoruEffect.addElement(outer3);
-
-        outer.appendChild(fling1);
-        outer.appendChild(fling2);
-        outer.appendChild(fling3);
-        */
 
 PadoruEffect.addElement(outer);
 const fn = () =>{
