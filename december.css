@@ -437,8 +437,8 @@ span.glyphicon.glyphicon-time {
 
 .c-effect__presents-label {
 	position: fixed;
-	margin-left: auto;
-	margin-right: auto;
+	margin: auto;
+	width: 60%;
 	bottom: 50%;
 	animation-timing-function: linear;
 	animation-name: presents-label-blink;
