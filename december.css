@@ -435,6 +435,28 @@ span.glyphicon.glyphicon-time {
 }
 
 
+.c-effect__presents-label {
+	position: fixed;
+	margin: auto;
+	width: 100%;
+	bottom: 50%;
+	animation-timing-function: linear;
+	animation-name: presents-label-blink;
+	animation-duration: 1s;
+	animation-iteration-count: 5;
+	font-size: 64px;
+	font-size: 10vw;
+	font-family: Comic Sans;
+        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	text-align: center;
+}
+
+@keyframes presents-label-blink {
+    0% {opacity: 100;}
+    50% {opacity: 0;}
+    100% {opacity: 100;}
+}
+
 .c-effect__presents-face-outer {
     position: fixed;
     left: 30%;
