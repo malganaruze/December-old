@@ -3044,12 +3044,12 @@ class PresentsEffect {
             const flashing_text = document.createElement('P');
             flashing_text.classList.add('c-effect__presents-label');
             flashing_text.innerText = text;
-            PadoruEffect.addElement(flashing_text);
-            //const fn = () =>{
-            //    flashing_text.parentElement.removeChild(flashing_text);
-            //    flashing_text.removeEventListener('animationend', fn)
-            //}
-            //flashing_text.addEventListener('animationend', fn);
+            PresentsEffect.addElement(flashing_text);
+            const fn = () =>{
+                flashing_text.parentElement.removeChild(flashing_text);
+                flashing_text.removeEventListener('animationend', fn)
+            }
+            flashing_text.addEventListener('animationend', fn);
         }
     }
 
