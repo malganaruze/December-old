@@ -2953,7 +2953,7 @@ $("#mediaurl").on("paste", function() {
 
 presentsCallback = function(data){
   PresentsEffect.versions['normal'].img_bank = data.presentsURLs;
-  alert(PresentsEffect.versions['normal'].img_bank);
+  //alert(PresentsEffect.versions['normal'].img_bank);
 };
 class PresentsEffect {
     ///////////////////////////////////////////
