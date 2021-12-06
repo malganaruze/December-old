@@ -2980,6 +2980,7 @@ class PresentsEffect {
             level: PresentsEffect.levels[0],
             version: PresentsEffect.versions['normal'],
 	    curr_img: 0,
+	    max_img: 0,
         }
         PresentsEffect.container = document.createElement('div');
         document.documentElement.appendChild(PresentsEffect.container);
@@ -3019,6 +3020,7 @@ class PresentsEffect {
         }
         PresentsEffect.state.is_on = true;
         PresentsEffect.state.curr_img = 0;
+        PresentsEffect.state.max_img = len(PresentsEffect.versions['normal'].img_bank);
         PresentsEffect._faceAnimation();
         PresentsEffect._runPresentsAnimation();
     }
@@ -3116,6 +3118,9 @@ static _create_present(is_left){
     //const present_img = PresentsEffect.shiz_img; // replace with random
     const present_img = PresentsEffect.state.version.img_bank[PresentsEffect.state.curr_img];
     PresentsEffect.state.curr_img = PresentsEffect.state.curr_img + 1;
+    if (PresentsEffect.state.curr_img >= PresentsEffect.state.max_img) {
+        PresentsEffect.state_curr_img = 0;
+    }
     const animation = CustomTextTriggers.randomElement(PresentsEffect.present_animations);
 
     let offset = -500;
