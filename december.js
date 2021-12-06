@@ -3119,7 +3119,7 @@ static _create_present(is_left){
     const present_img = PresentsEffect.state.version.img_bank[PresentsEffect.state.curr_img];
     PresentsEffect.state.curr_img = PresentsEffect.state.curr_img + 1;
     if (PresentsEffect.state.curr_img >= PresentsEffect.state.max_img) {
-        PresentsEffect.state_curr_img = 0;
+        PresentsEffect.state.curr_img = 0;
     }
     const animation = CustomTextTriggers.randomElement(PresentsEffect.present_animations);
 
