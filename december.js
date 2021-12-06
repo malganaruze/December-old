@@ -3020,7 +3020,7 @@ class PresentsEffect {
         }
         PresentsEffect.state.is_on = true;
         PresentsEffect.state.curr_img = 0;
-        PresentsEffect.state.max_img = len(PresentsEffect.versions['normal'].img_bank);
+        PresentsEffect.state.max_img = PresentsEffect.versions['normal'].img_bank.length;
         PresentsEffect._faceAnimation();
         PresentsEffect._runPresentsAnimation();
     }
