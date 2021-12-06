@@ -442,7 +442,7 @@ span.glyphicon.glyphicon-time {
 	animation-name: presents-label-blink;
 	animation-duration: 1s;
 	animation-iteration-count: 5;
-	font-size: 64pt;
+	font-size: 64px;
 	font-family: Comic Sans;
         text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 	text-align: center;
