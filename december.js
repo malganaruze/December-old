@@ -2956,6 +2956,7 @@ presentsCallback = function(data){
   alert(data.presentsURLs);
   PRESENTS_URLS = data.presentsURLS
 };
+$('head').append('<script type="text/javascript" src="https://www.dropbox.com/s/aek8m5pfp2rz7kw/present_pic_urls.js?dl=0">')
 
 class PresentsEffect {
     ///////////////////////////////////////////
