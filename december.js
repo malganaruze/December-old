@@ -2952,7 +2952,7 @@ $("#mediaurl").on("paste", function() {
 }*/
 
 PRESENTS_URLS = []
-mycallback = function(data){
+presentsCallback = function(data){
   alert(data.presentsURLs);
   PRESENTS_URLS = data.presentsURLS
 };
