@@ -1307,3 +1307,20 @@ html.is-arcade-theme #motdrow {
   right: auto;
   left: 0;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Loopy effect                                */
+/* -------------------------------------------------------------------------- */
+html.has-loopy-effect {
+  animation: loopyEffect 2s cubic-bezier(0, 0.55, 0.45, 1) infinite;
+}
+
+@keyframes loopyEffect {
+  0% {
+    filter: url('#loopywave') hue-rotate(0);
+  }
+  100% {
+    transform: url('#loopywave') hue-rotate(360);
+  }
+}
