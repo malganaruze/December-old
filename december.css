@@ -237,6 +237,8 @@ footer {padding-bottom:5px}
 .teamryuuji::before{background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/ryuuji.png');}
 .teamhidaka::before{background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/Hidaka.png');}
 .teamono::before{background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/Ono.png');}
+.teamshiina::before{background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/shiina.png');}
+.teamaoyama::before{background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/aoyama.png');}
 .chat-msg-_North .username::before {
 background:url('https://cdn.jsdelivr.net/gh/HappyHub1/December/Images/kagami.ico');
 }
