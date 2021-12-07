@@ -1313,14 +1313,17 @@ html.is-arcade-theme #motdrow {
 /*                                Loopy effect                                */
 /* -------------------------------------------------------------------------- */
 html.has-loopy-effect {
-  animation: loopyEffect 2s forwards infinite linear;
+  filter: url('#loopywave');
+}
+html.has-loopy-effect body {
+  animation: loopyEffect 4s forwards infinite linear;
 }
 
 @keyframes loopyEffect {
-  0% {
-    filter: url('#loopywave') hue-rotate(0);
+  0%, 100% {
+    filter: hue-rotate(0) blur(0px) saturate(0);
   }
-  100% {
-    filter: url('#loopywave') hue-rotate(360);
+  50% {
+    filter: hue-rotate(360deg) blur(1px) saturate(1);
   }
 }
