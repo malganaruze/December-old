@@ -1313,7 +1313,7 @@ html.is-arcade-theme #motdrow {
 /*                                Loopy effect                                */
 /* -------------------------------------------------------------------------- */
 html.has-loopy-effect {
-  animation: loopyEffect 2s cubic-bezier(0, 0.55, 0.45, 1) infinite;
+  animation: loopyEffect 2s forwards infinite linear;
 }
 
 @keyframes loopyEffect {
