@@ -4680,7 +4680,7 @@ ArcadeTheme.command = '/arcade_theme';
     LoopyEffect.start();
   }
 }
-ArcadeTheme.command = '/loopy';
+LoopyEffect.command = '/loopy';
 
 
 function decodeEntities(string) {
